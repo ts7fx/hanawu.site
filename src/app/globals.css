@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #d9d2c5;
+  --color-cream-light: #e8e3da;
+  --color-cream-dark: #c4bcae;
+  --color-accent: #b44a3e;
+  --color-accent-light: #c96b61;
+  --color-dark: #1a1a1a;
+  --color-dark-medium: #2a2a2a;
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-light: #999999;
+
+  --font-serif: "Playfair Display", "Georgia", serif;
+  --font-sans: "Inter", "system-ui", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: white;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 3px;
+}
+
+/* Section divider line style matching portfolio */
+.section-line {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-line::before,
+.section-line::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-text-primary);
+}
+
+/* Smooth fade for scroll sections */
+.fade-section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
