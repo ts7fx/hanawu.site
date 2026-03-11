@@ -35,7 +35,7 @@ export default function ProjectCard({
     >
       {/* Project header with number */}
       <div className="flex items-start gap-4 mb-6">
-        <span className="font-[family-name:var(--font-serif)] text-accent/40 text-sm italic">
+        <span className="font-display text-accent/40 text-sm italic">
           /{number}
         </span>
         <span className="text-xs text-text-light tracking-wider">{year}</span>
@@ -43,13 +43,17 @@ export default function ProjectCard({
 
       {/* Image placeholder with gradient */}
       <div
-        className={`relative w-full aspect-[16/10] rounded-sm overflow-hidden mb-8 ${gradient}`}
+        className={`relative w-full aspect-[16/10] rounded-sm overflow-hidden mb-8 ${gradient} transition-all duration-700 ease-out group-hover:shadow-xl group-hover:shadow-black/10`}
       >
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h3 className="font-[family-name:var(--font-serif)] text-2xl md:text-3xl tracking-wider text-white/90 text-center px-6">
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          whileHover={{ scale: 1.03 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <h3 className="font-display text-2xl md:text-3xl tracking-wider text-white/90 text-center px-6 transition-transform duration-700 group-hover:scale-105">
             {title}
           </h3>
-        </div>
+        </motion.div>
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
       </div>
 
@@ -67,7 +71,7 @@ export default function ProjectCard({
           {responsibilities.map((r) => (
             <span
               key={r}
-              className="text-[10px] px-2.5 py-1 border border-text-light/20 text-text-light tracking-wider uppercase"
+              className="text-[10px] px-2.5 py-1 border border-text-light/20 text-text-light tracking-wider uppercase transition-colors duration-300 hover:border-accent/40 hover:text-accent"
             >
               {r}
             </span>

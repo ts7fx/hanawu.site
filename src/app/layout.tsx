@@ -2,9 +2,37 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Hana Wu | Senior Art Director & Designer",
+  title: "Hana Wu | Brand Visual Designer & Founder",
   description:
-    "Portfolio of Hana Wu (吴雪莹) — Senior Art Director specializing in branding, creative strategy, graphic design, and UI design for luxury and global brands.",
+    "Portfolio of Hana Wu (吴雪莹) — Brand Visual Designer with 9 years of experience in luxury, fashion, and FMCG brands. Founder of Huashengsheng Design Studio.",
+  metadataBase: new URL("https://hanawu.site"),
+  openGraph: {
+    title: "Hana Wu | Brand Visual Designer & Founder",
+    description:
+      "Portfolio of Hana Wu (吴雪莹) — Brand Visual Designer with 9 years of experience. Serving Michael Kors, ba&sh, Budweiser, Van Cleef & Arpels, and 30+ brands.",
+    url: "https://hanawu.site",
+    siteName: "Hana Wu Portfolio",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Hana Wu | Brand Visual Designer & Founder",
+    description:
+      "Portfolio of Hana Wu (吴雪莹) — Brand Visual Designer with 9 years of experience. Serving Michael Kors, ba&sh, Budweiser, Van Cleef & Arpels, and 30+ brands.",
+  },
+  icons: {
+    icon: [
+      {
+        url: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>",
+        type: "image/svg+xml",
+      },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +54,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <div className="grain-overlay" aria-hidden="true" />
+        {children}
+      </body>
     </html>
   );
 }

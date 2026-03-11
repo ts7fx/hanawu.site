@@ -32,6 +32,23 @@ body {
   color: white;
 }
 
+/* Display font utility */
+.font-display {
+  font-family: var(--font-serif);
+}
+
+/* Film grain overlay */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -42,6 +59,24 @@ body {
 ::-webkit-scrollbar-thumb {
   background: var(--color-accent);
   border-radius: 3px;
+}
+
+/* Infinite marquee */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
 }
 
 /* Section divider line style matching portfolio */
@@ -56,6 +91,14 @@ body {
   flex: 1;
   height: 1px;
   background-color: var(--color-text-primary);
+}
+
+/* Custom cursor - hide default on desktop */
+@media (pointer: fine) {
+  .custom-cursor,
+  .custom-cursor * {
+    cursor: none !important;
+  }
 }
 
 /* Smooth fade for scroll sections */

@@ -1,25 +1,53 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
   { label: "About", href: "#about" },
-  { label: "Branding", href: "#branding" },
+  { label: "Brand", href: "#branding" },
   { label: "Creative", href: "#creative" },
-  { label: "Design", href: "#design" },
-  { label: "UI", href: "#ui" },
+  { label: "Packaging", href: "#packaging" },
+  { label: "Digital", href: "#digital" },
   { label: "Contact", href: "#contact" },
 ];
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+
+  const handleScroll = useCallback(() => {
+    setScrolled(window.scrollY > 100);
+  }, []);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 100);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
+  // Track active section with IntersectionObserver
+  useEffect(() => {
+    const sectionIds = navItems.map((item) => item.href.replace("#", ""));
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(`#${id}`);
+          }
+        },
+        { rootMargin: "-40% 0px -55% 0px" }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   return (
@@ -37,7 +65,7 @@ export default function Navigation() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-16 md:h-20">
           <a
             href="#"
-            className="font-[family-name:var(--font-serif)] text-lg md:text-xl tracking-wider text-text-primary"
+            className="font-display text-lg md:text-xl tracking-wider text-text-primary"
           >
             HANA WU
           </a>
@@ -48,9 +76,29 @@ export default function Navigation() {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-xs tracking-[0.2em] uppercase text-text-secondary hover:text-accent transition-colors duration-300"
+                className={`group relative text-xs tracking-[0.2em] uppercase transition-colors duration-300 py-1 ${
+                  activeSection === item.href
+                    ? "text-accent"
+                    : "text-text-secondary hover:text-accent"
+                }`}
               >
                 {item.label}
+                {/* Active indicator */}
+                {activeSection === item.href && (
+                  <motion.span
+                    layoutId="nav-indicator"
+                    className="absolute -bottom-1 left-0 right-0 h-px bg-accent"
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 30,
+                    }}
+                  />
+                )}
+                {/* Hover underline - only when not active */}
+                {activeSection !== item.href && (
+                  <span className="absolute -bottom-1 left-0 right-0 h-px bg-accent scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                )}
               </a>
             ))}
           </div>
@@ -91,7 +139,11 @@ export default function Navigation() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="text-sm tracking-[0.3em] uppercase text-text-primary hover:text-accent transition-colors"
+                className={`text-sm tracking-[0.3em] uppercase transition-colors ${
+                  activeSection === item.href
+                    ? "text-accent"
+                    : "text-text-primary hover:text-accent"
+                }`}
               >
                 {item.label}
               </motion.a>
